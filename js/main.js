@@ -81,4 +81,4 @@ function createOffer() {
   };
 }
 
-const offers = Array.from({length: 10}, createOffer);
+createOffer();
