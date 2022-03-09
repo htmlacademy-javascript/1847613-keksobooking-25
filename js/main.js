@@ -1,3 +1,5 @@
-import { createOffers } from './create-offers.js';
+import { offersFragment } from './generate-offers.js';
 
-createOffers();
+const canvas = document.querySelector('#map-canvas');
+
+canvas.appendChild(offersFragment);
