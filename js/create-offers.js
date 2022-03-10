@@ -29,6 +29,6 @@ const createOffer = () => {
   };
 };
 
-const createOffers = () => Array.from({length: 1}, createOffer);
+const createOffers = () => Array.from({length: 10}, createOffer);
 
 export {createOffers};
