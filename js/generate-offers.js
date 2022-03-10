@@ -1,22 +1,12 @@
 import { createOffers } from './create-offers.js';
-import { createImage, createListItem } from './util.js';
+import { createImage, createListItem, getElement } from './util.js';
 import { TYPES_OF_INHABITATION } from './data.js';
-
-const offers = createOffers()[0];
-const offersFragment = document.createDocumentFragment();
-
-const getElement = (arr, f) => {
-  const fragment = document.createDocumentFragment();
-  arr.forEach((element) => {
-    fragment.append(f(element));
-  });
-  return fragment;
-};
 
 const renderCard = () => {
   const {author: {avatar},
-    offer: {title, address, price, type, rooms, guests, checkin, checkout, features, description, photos}} = offers;
+    offer: {title, address, price, type, rooms, guests, checkin, checkout, features, description, photos}} = createOffers()[0];
   const card = document.querySelector('#card').content.querySelector('.popup');
+  const offersFragment = document.createDocumentFragment();
   const cardElement = card.cloneNode(true);
   const cardPhotos = cardElement.querySelector('.popup__photos');
   cardPhotos.innerHTML = '';

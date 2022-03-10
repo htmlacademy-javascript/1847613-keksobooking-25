@@ -64,5 +64,13 @@ const createImage = (source) => {
   return imageElement;
 };
 
+const getElement = (arr, func) => {
+  const fragment = document.createDocumentFragment();
+  arr.forEach((element) => {
+    fragment.append(func(element));
+  });
+  return fragment;
+};
+
 export {getRandomNumber, getRandomFloatNumber, getRandomArrayElement,
-  randomAvatar, getRandomArray, createImage, createListItem};
+  randomAvatar, getRandomArray, createImage, createListItem, getElement};
