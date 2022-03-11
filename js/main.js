@@ -1,3 +1,5 @@
-import { createOffers } from './create-offers.js';
+import { renderCard } from './generate-offers.js';
 
-createOffers();
+const canvas = document.querySelector('#map-canvas');
+
+canvas.append(renderCard());
