@@ -5,12 +5,20 @@ const TYPES = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
 const FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 const TITLES = ['Title 1','Title 2', 'Title 3', 'Title 4', 'Title 5', 'Title 6', 'Title 7', 'Title 8'];
 const DESCRIPTIONS = ['Descr 1','Descr 2', 'Descr 3', 'Descr 4', 'Descr 5'];
-const TYPES_OF_INHABITATION = {
-  flat: 'Квартира',
-  bungalow: 'Бунгало',
-  house: 'Дом',
-  palace: 'Дворец',
-  hotel: 'Отель'
+const typesOfInhabitation = {
+  'flat': 'Квартира',
+  'bungalow': 'Бунгало',
+  'house': 'Дом',
+  'palace': 'Дворец',
+  'hotel': 'Отель'
+};
+const PRICE_OF_TYPES = {
+  'bungalow': 0,
+  'flat': 1000,
+  'hotel': 3000,
+  'house': 5000,
+  'palace': 10000,
 };
 
-export {CHECKIN_TIMES, CHECKOUT_TIMES, PHOTOS, TYPES, FEATURES, TITLES, DESCRIPTIONS, TYPES_OF_INHABITATION};
+export {CHECKIN_TIMES, CHECKOUT_TIMES, PHOTOS, TYPES, FEATURES, TITLES,
+  DESCRIPTIONS, typesOfInhabitation, PRICE_OF_TYPES};

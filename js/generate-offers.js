@@ -1,6 +1,6 @@
 import { createOffers } from './create-offers.js';
 import { createImage, createListItem, getElement } from './util.js';
-import { TYPES_OF_INHABITATION } from './data.js';
+import { typesOfInhabitation } from './data.js';
 
 const renderCard = () => {
   const {author: {avatar},
@@ -16,7 +16,7 @@ const renderCard = () => {
   cardElement.querySelector('.popup__title').textContent = title || '';
   cardElement.querySelector('.popup__text--address').textContent = address || '';
   cardElement.querySelector('.popup__text--price').textContent = `${price} ₽/ночь` || '';
-  cardElement.querySelector('.popup__type').textContent = TYPES_OF_INHABITATION[type] || '';
+  cardElement.querySelector('.popup__type').textContent = typesOfInhabitation[type] || '';
   cardElement.querySelector('.popup__text--capacity').textContent = `${rooms} комнаты для ${guests} гостей` || '';
   cardElement.querySelector('.popup__text--time').textContent = `Заезд после ${checkin}, выезд до ${checkout}` || '';
   cardElement.querySelector('.popup__description').textContent = description || '';
