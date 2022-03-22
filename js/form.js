@@ -56,14 +56,11 @@ const validateForm = () => {
   });
 };
 
-const isNotReady = () => {
+const switchToUnready = () => {
   form.classList.add('ad-form--disabled');
   fieldSet.forEach((elem) => {
     elem.setAttribute('disabled', 'disabled');
   });
-  // Array.from(form.elements).forEach((formElement) => {
-  //   formElement.disabled = true;
-  // });
   mapFilter.classList.add('map__filters--disabled');
   filters.forEach((elem) => {
     elem.setAttribute('disabled', 'disabled');
@@ -71,7 +68,7 @@ const isNotReady = () => {
   filterCheckbox.setAttribute('disabled', 'disabled');
 };
 
-const isReady = () => {
+const switchToReady = () => {
   form.classList.remove('ad-form--disabled');
   fieldSet.forEach((elem) => {
     elem.removeAttribute('disabled', 'disabled');
@@ -83,4 +80,4 @@ const isReady = () => {
   filterCheckbox.removeAttribute('disabled', 'disabled');
 };
 
-export {validateForm, isNotReady, isReady};
+export {validateForm, switchToUnready, switchToReady};

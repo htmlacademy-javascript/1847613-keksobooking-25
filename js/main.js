@@ -1,8 +1,8 @@
 import { renderCard } from './generate-offers.js';
-import { validateForm, isNotReady, isReady } from './validate-form.js';
+import { validateForm, switchToUnready, switchToReady } from './form.js';
 
 const canvas = document.querySelector('#map-canvas');
 validateForm();
-isNotReady();
-isReady();
+switchToUnready();
+switchToReady();
 canvas.append(renderCard());
