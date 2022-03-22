@@ -1,6 +1,10 @@
 import { PRICE_OF_TYPES } from './data.js';
 
 const form = document.querySelector('.ad-form');
+const fieldSet = form.querySelectorAll('.ad-form__element');
+const mapFilter = document.querySelector('.map__filters');
+const filters = mapFilter.querySelectorAll('.map__filter');
+const filterCheckbox = mapFilter.querySelector('.map__features');
 const pristine = new Pristine(form, {
   classTo: 'ad-form__element',
   errorClass: 'ad-form__element--invalid',
@@ -52,4 +56,28 @@ const validateForm = () => {
   });
 };
 
-export {validateForm};
+const switchToUnready = () => {
+  form.classList.add('ad-form--disabled');
+  fieldSet.forEach((elem) => {
+    elem.setAttribute('disabled', 'disabled');
+  });
+  mapFilter.classList.add('map__filters--disabled');
+  filters.forEach((elem) => {
+    elem.setAttribute('disabled', 'disabled');
+  });
+  filterCheckbox.setAttribute('disabled', 'disabled');
+};
+
+const switchToReady = () => {
+  form.classList.remove('ad-form--disabled');
+  fieldSet.forEach((elem) => {
+    elem.removeAttribute('disabled', 'disabled');
+  });
+  mapFilter.classList.remove('map__filters--disabled');
+  filters.forEach((elem) => {
+    elem.removeAttribute('disabled', 'disabled');
+  });
+  filterCheckbox.removeAttribute('disabled', 'disabled');
+};
+
+export {validateForm, switchToUnready, switchToReady};
