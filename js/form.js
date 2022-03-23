@@ -1,4 +1,6 @@
 import { PRICE_OF_TYPES } from './data.js';
+import { getSlider } from './api-nouislider.js';
+
 
 const form = document.querySelector('.ad-form');
 const fieldSet = form.querySelectorAll('.ad-form__element');
@@ -29,6 +31,7 @@ const price = document.querySelector('#price');
 type.addEventListener('change', (evt) => {
   price.min = PRICE_OF_TYPES[evt.target.value];
   price.placeholder = PRICE_OF_TYPES[evt.target.value];
+  price.value = '';
 });
 
 const validateCapacity = () => guestsField.value <= roomsField.value
@@ -69,6 +72,7 @@ const switchToUnready = () => {
 };
 
 const switchToReady = () => {
+  getSlider();
   form.classList.remove('ad-form--disabled');
   fieldSet.forEach((elem) => {
     elem.removeAttribute('disabled', 'disabled');
