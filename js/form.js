@@ -1,6 +1,4 @@
 import { PRICE_OF_TYPES } from './data.js';
-import { getSlider } from './api-nouislider.js';
-
 
 const form = document.querySelector('.ad-form');
 const fieldSet = form.querySelectorAll('.ad-form__element');
@@ -21,18 +19,46 @@ const guestsField = form.querySelector('#capacity');
 const addFormElementTime = document.querySelector('.ad-form__element--time');
 const timeIn = document.querySelector('#timein');
 const timeOut = document.querySelector('#timeout');
+const type = document.querySelector('#type');
+const price = document.querySelector('#price');
+const sliderElement = document.querySelector('.ad-form__slider');
 addFormElementTime.addEventListener('change', (evt) => {
   timeOut.value = evt.target.value;
   timeIn.value = evt.target.value;
 });
+
+const getSlider = () => {
+  const startingValues = {
+    min: 0,
+    max: 100000,
+  };
+
+  noUiSlider.create(sliderElement, {
+    range: startingValues,
+    start: 1000,
+    step: 10,
+    connect: 'lower',
+    format: {
+      to: (value) => value.toFixed(0),
+      from: (value) => value
+    },
+  });
+
+  sliderElement.noUiSlider.on('update', () => {
+    price.value = sliderElement.noUiSlider.get();
+  });
+};
+
 // Изменение цены в зависимости от типа жилья
-const type = document.querySelector('#type');
-const price = document.querySelector('#price');
 type.addEventListener('change', (evt) => {
   price.min = PRICE_OF_TYPES[evt.target.value];
   price.placeholder = PRICE_OF_TYPES[evt.target.value];
-  price.value = '';
+  sliderElement.noUiSlider.set(PRICE_OF_TYPES[evt.target.value]);
 });
+
+const validatePrice = () => parseInt(price.value, 10) >= parseInt(price.min, 10)
+  && parseInt(price.value, 10) >= 0
+  && parseInt(price.value, 10) <= 100000;
 
 const validateCapacity = () => guestsField.value <= roomsField.value
   && parseInt(roomsField.value, 10) !== 100
@@ -47,6 +73,12 @@ pristine.addValidator(
 pristine.addValidator(
   guestsField,
   validateCapacity,
+  'Выберите другое значение'
+);
+
+pristine.addValidator(
+  price,
+  validatePrice,
   'Выберите другое значение'
 );
 
