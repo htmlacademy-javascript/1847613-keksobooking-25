@@ -51,9 +51,17 @@ const getSlider = () => {
 
 // Изменение цены в зависимости от типа жилья
 type.addEventListener('change', (evt) => {
-  price.min = PRICE_OF_TYPES[evt.target.value];
-  price.placeholder = PRICE_OF_TYPES[evt.target.value];
-  sliderElement.noUiSlider.set(PRICE_OF_TYPES[evt.target.value]);
+  const priceMin = PRICE_OF_TYPES[evt.target.value];
+  price.setAttribute('min', priceMin);
+  price.setAttribute('placeholder', priceMin);
+  price.setAttribute('value', price.value);
+  sliderElement.noUiSlider.updateOptions({
+    range: {
+      min: priceMin,
+      max: 100000
+    },
+    start: price.value
+  });
 });
 
 const validatePrice = () => parseInt(price.value, 10) >= parseInt(price.min, 10)
