@@ -2,6 +2,7 @@ import { createImage, createListItem, getElement } from './util.js';
 import { typesOfInhabitation } from './data.js';
 
 const renderCard = (cardData) => {
+
   const card = document.querySelector('#card').content.querySelector('.popup');
   const cardElement = card.cloneNode(true);
   const cardPhotos = cardElement.querySelector('.popup__photos');

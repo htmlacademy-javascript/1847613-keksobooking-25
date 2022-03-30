@@ -1,8 +1,7 @@
-import { createOffers } from './create-offers.js';
 import { renderCard } from './generate-offers.js';
 import { switchToReady } from './form.js';
+import { getData } from './api.js';
 
-const data = createOffers();
 const address = document.querySelector('#address');
 const startingCoordinates = {
   lat: '35.68950',
@@ -10,7 +9,7 @@ const startingCoordinates = {
 };
 
 const setCoordinatesValue = ({lat, lng}) => `${lat}, ${lng}`;
-const startingValue = () => {
+const getStartingValue = () => {
   address.value = setCoordinatesValue(startingCoordinates);
 };
 
@@ -36,22 +35,38 @@ const mainPinMarker = L.marker(
 
 const markersGroup = L.layerGroup();
 
-const createMarker = (point) => {
-  const marker = L.marker(
-    point.location,
-    {
-      icon,
-    },
-  );
+const createMarker = (points) => {
+  points.forEach((point) => {
+    console.log(point)
+    const marker = L.marker(
+      point.location,
+      {
+        icon,
+      },
+    );
 
-  marker
-    .addTo(markersGroup)
-    .bindPopup(renderCard(point));
+    marker
+      .addTo(markersGroup)
+      .bindPopup(renderCard(point));
+  });
 };
+// let data = [];
+// const parseData = (arr) => {
+//   data = [...arr];
 
-data.forEach((point) => {
-  createMarker(point);
-});
+//   return data;
+// };
+
+// getData((offers) => {
+//   // createMarker(offers);
+//   parseData(offers);
+// });
+
+// const drawPoints = (data) => {
+//   data.forEach((elem) => createMarker(elem));
+// };
+
+getData(createMarker);
 
 const getMap = () => {
   const map = L.map('map-canvas')
@@ -63,8 +78,7 @@ const getMap = () => {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     },
   ).addTo(map);
-
-  startingValue();
+  getStartingValue();
   switchToReady();
 
   mainPinMarker.on('move', (evt) => {
@@ -79,4 +93,8 @@ const getMap = () => {
   markersGroup.addTo(map);
 };
 
-export {getMap};
+const setDefaultMap = () => {
+  mainPinMarker.setLatLng(startingCoordinates);
+};
+
+export {getMap, getStartingValue, setDefaultMap};

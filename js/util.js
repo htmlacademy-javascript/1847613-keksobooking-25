@@ -72,5 +72,26 @@ const getElement = (arr, func) => {
   return fragment;
 };
 
+const showAlert = (message) => {
+  const container = document.createElement('div');
+  container.style.zIndex = 100;
+  container.style.position = 'absolute';
+  container.style.left = 0;
+  container.style.top = 0;
+  container.style.right = 0;
+  container.style.padding = '10px 5px';
+  container.style.fontSize = '30px';
+  container.style.textAlign = 'center';
+  container.style.color = 'white';
+  container.style.backgroundColor = 'red';
+  container.textContent = message;
+
+  document.body.append(container);
+
+  setTimeout(() => {
+    container.remove();
+  }, 5000);
+};
+
 export {getRandomNumber, getRandomFloatNumber, getRandomArrayElement,
-  randomAvatar, getRandomArray, createImage, createListItem, getElement};
+  randomAvatar, getRandomArray, createImage, createListItem, getElement, showAlert};

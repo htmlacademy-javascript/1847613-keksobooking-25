@@ -1,10 +1,14 @@
 import { PRICE_OF_TYPES } from './data.js';
+import { sendData } from './api.js';
+import { getStartingValue, setDefaultMap } from './api-map.js';
+import { showErrorMessage } from './user-messages.js';
 
 const form = document.querySelector('.ad-form');
 const fieldSet = form.querySelectorAll('.ad-form__element');
 const mapFilter = document.querySelector('.map__filters');
 const filters = mapFilter.querySelectorAll('.map__filter');
 const filterCheckbox = mapFilter.querySelector('.map__features');
+const buttonReset = document.querySelector('.ad-form__reset');
 const pristine = new Pristine(form, {
   classTo: 'ad-form__element',
   errorClass: 'ad-form__element--invalid',
@@ -64,6 +68,10 @@ type.addEventListener('change', (evt) => {
   });
 });
 
+price.addEventListener('input', (evt) => {
+  price.value = evt.target.value;
+});
+
 const validatePrice = () => parseInt(price.value, 10) >= parseInt(price.min, 10)
   && parseInt(price.value, 10) >= 0
   && parseInt(price.value, 10) <= 100000;
@@ -90,12 +98,33 @@ pristine.addValidator(
   'Выберите другое значение'
 );
 
-const validateForm = () => {
+const resetForm = () => {
+  form.reset();
+  mapFilter.reset();
+  getStartingValue();
+  setDefaultMap();
+
+  sliderElement.noUiSlider.updateOptions({
+    range: {
+      min: 1000,
+      max: 100000
+    },
+    start: 1000
+  });
+};
+
+const validateForm = (onSuccess) => {
   form.addEventListener('submit', (evt) => {
     const isValid = pristine.validate();
-    if (!isValid) {
-      evt.preventDefault();
+    if (isValid) {
+      sendData(
+        onSuccess,
+        showErrorMessage,
+        new FormData(evt.target)
+      );
+      resetForm();
     }
+    evt.preventDefault();
   });
 };
 
@@ -123,5 +152,11 @@ const switchToReady = () => {
   });
   filterCheckbox.removeAttribute('disabled', 'disabled');
 };
+
+buttonReset.addEventListener('click', (evt) => {
+  evt.preventDefault();
+
+  resetForm();
+});
 
 export {validateForm, switchToUnready, switchToReady};
