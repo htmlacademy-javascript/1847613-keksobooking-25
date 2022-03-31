@@ -1,4 +1,3 @@
-
 const body = document.querySelector('body');
 let messageTemplate;
 let messageElement;
@@ -8,7 +7,7 @@ const deleteMessage = () => {
 };
 
 const pressEscKeydown = (evt) => {
-  if (evt.key === 'Escape' || evt.key === 'Esc') {
+  if (evt.code === 'Escape') {
     deleteMessage();
     body.removeEventListener('keydown', pressEscKeydown);
   }
@@ -30,8 +29,8 @@ const showErrorMessage = () => {
 
   body.append(messageElement);
   body.addEventListener('click', deleteMessage, {once: true});
-  errorButton.addEventListener('click', deleteMessage, {once: true});
   body.addEventListener('keydown', pressEscKeydown);
+  errorButton.addEventListener('click', deleteMessage, {once: true});
 };
 
 export {showSuccessMessage, showErrorMessage};

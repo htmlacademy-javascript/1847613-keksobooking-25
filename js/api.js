@@ -1,7 +1,10 @@
 import { showAlert } from './util.js';
 
+const ServerGetAddress = 'https://25.javascript.pages.academy/keksobooking/data';
+const ServerSendAddress = 'https://25.javascript.pages.academy/keksobooking';
+
 const getData = (onSuccess) => {
-  fetch('https://25.javascript.pages.academy/keksobooking/data')
+  fetch(ServerGetAddress)
     .then((response) => {
       if (response.ok) {
         return response;
@@ -10,14 +13,13 @@ const getData = (onSuccess) => {
     })
     .then((response) => response.json())
     .then((offers) => {
-      onSuccess(offers);
+      onSuccess(offers.slice(0,10));
     })
-    .catch((error) => error);
+    .catch(() => showAlert('Ошибка сервера'));
 };
 
 const sendData = (onSuccess, onFail, body) => {
-  fetch(
-    'https://25.javascript.pages.academy/keksobooking',
+  fetch(ServerSendAddress,
     {
       method: 'POST',
       body,
@@ -30,9 +32,7 @@ const sendData = (onSuccess, onFail, body) => {
         onFail();
       }
     })
-    .catch(() => {
-      onFail();
-    });
+    .catch(() => showAlert('Ошибка отправки'));
 };
 
 export {getData, sendData};

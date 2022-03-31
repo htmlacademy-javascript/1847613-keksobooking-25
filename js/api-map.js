@@ -37,7 +37,6 @@ const markersGroup = L.layerGroup();
 
 const createMarker = (points) => {
   points.forEach((point) => {
-    console.log(point)
     const marker = L.marker(
       point.location,
       {
@@ -50,26 +49,15 @@ const createMarker = (points) => {
       .bindPopup(renderCard(point));
   });
 };
-// let data = [];
-// const parseData = (arr) => {
-//   data = [...arr];
-
-//   return data;
-// };
-
-// getData((offers) => {
-//   // createMarker(offers);
-//   parseData(offers);
-// });
-
-// const drawPoints = (data) => {
-//   data.forEach((elem) => createMarker(elem));
-// };
 
 getData(createMarker);
 
 const getMap = () => {
   const map = L.map('map-canvas')
+    .on('load', () => {
+      switchToReady();
+      getStartingValue();
+    })
     .setView(startingCoordinates, 10);
 
   L.tileLayer(
@@ -78,8 +66,6 @@ const getMap = () => {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     },
   ).addTo(map);
-  getStartingValue();
-  switchToReady();
 
   mainPinMarker.on('move', (evt) => {
     const coordinates = evt.target.getLatLng();

@@ -8,6 +8,7 @@ const fieldSet = form.querySelectorAll('.ad-form__element');
 const mapFilter = document.querySelector('.map__filters');
 const filters = mapFilter.querySelectorAll('.map__filter');
 const filterCheckbox = mapFilter.querySelector('.map__features');
+const buttonSubmit = document.querySelector('.ad-form__submit');
 const buttonReset = document.querySelector('.ad-form__reset');
 const pristine = new Pristine(form, {
   classTo: 'ad-form__element',
@@ -113,18 +114,33 @@ const resetForm = () => {
   });
 };
 
+const blockSubmitButton = () => {
+  buttonSubmit.disabled = true;
+};
+
+const unblockSubmitButton = () => {
+  buttonSubmit.disabled = false;
+};
+
 const validateForm = (onSuccess) => {
   form.addEventListener('submit', (evt) => {
+    evt.preventDefault();
     const isValid = pristine.validate();
     if (isValid) {
+      blockSubmitButton();
       sendData(
-        onSuccess,
-        showErrorMessage,
+        () => {
+          onSuccess();
+          unblockSubmitButton();
+        },
+        () => {
+          showErrorMessage();
+          unblockSubmitButton();
+        },
         new FormData(evt.target)
       );
       resetForm();
     }
-    evt.preventDefault();
   });
 };
 
