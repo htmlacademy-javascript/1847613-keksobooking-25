@@ -1,10 +1,15 @@
 import { PRICE_OF_TYPES } from './data.js';
+import { sendData } from './api.js';
+import { getStartingValue, setDefaultMap } from './api-map.js';
+import { showErrorMessage } from './user-messages.js';
 
 const form = document.querySelector('.ad-form');
 const fieldSet = form.querySelectorAll('.ad-form__element');
 const mapFilter = document.querySelector('.map__filters');
 const filters = mapFilter.querySelectorAll('.map__filter');
 const filterCheckbox = mapFilter.querySelector('.map__features');
+const buttonSubmit = document.querySelector('.ad-form__submit');
+const buttonReset = document.querySelector('.ad-form__reset');
 const pristine = new Pristine(form, {
   classTo: 'ad-form__element',
   errorClass: 'ad-form__element--invalid',
@@ -90,12 +95,49 @@ pristine.addValidator(
   'Выберите другое значение'
 );
 
-const validateForm = () => {
+const resetForm = () => {
+  form.reset();
+  mapFilter.reset();
+  getStartingValue();
+  setDefaultMap();
+
+  sliderElement.noUiSlider.updateOptions({
+    range: {
+      min: 1000,
+      max: 100000
+    },
+    start: 1000
+  });
+};
+
+const blockSubmitButton = () => {
+  buttonSubmit.disabled = true;
+};
+
+const unblockSubmitButton = () => {
+  buttonSubmit.disabled = false;
+};
+
+const validateForm = (onSuccess) => {
   form.addEventListener('submit', (evt) => {
+    evt.preventDefault();
     const isValid = pristine.validate();
     if (!isValid) {
-      evt.preventDefault();
+      return;
     }
+    blockSubmitButton();
+    sendData(
+      () => {
+        onSuccess();
+        unblockSubmitButton();
+        resetForm();
+      },
+      () => {
+        showErrorMessage();
+        unblockSubmitButton();
+      },
+      new FormData(evt.target)
+    );
   });
 };
 
@@ -123,5 +165,11 @@ const switchToReady = () => {
   });
   filterCheckbox.removeAttribute('disabled', 'disabled');
 };
+
+buttonReset.addEventListener('click', (evt) => {
+  evt.preventDefault();
+
+  resetForm();
+});
 
 export {validateForm, switchToUnready, switchToReady};

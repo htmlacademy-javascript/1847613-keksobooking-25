@@ -2,6 +2,7 @@ import { createImage, createListItem, getElement } from './util.js';
 import { typesOfInhabitation } from './data.js';
 
 const renderCard = (cardData) => {
+
   const card = document.querySelector('#card').content.querySelector('.popup');
   const cardElement = card.cloneNode(true);
   const cardPhotos = cardElement.querySelector('.popup__photos');
@@ -16,8 +17,12 @@ const renderCard = (cardData) => {
   cardElement.querySelector('.popup__text--capacity').textContent = `${cardData.offer.rooms} комнаты для ${cardData.offer.guests} гостей` || '';
   cardElement.querySelector('.popup__text--time').textContent = `Заезд после ${cardData.offer.checkin}, выезд до ${cardData.offer.checkout}` || '';
   cardElement.querySelector('.popup__description').textContent = cardData.offer.description || '';
-  cardPhotos.append(getElement(cardData.offer.photos, createImage));
-  cardFeatures.append(getElement(cardData.offer.features, createListItem));
+  if (cardData.offer.photos) {
+    cardPhotos.append(getElement(cardData.offer.photos, createImage));
+  }
+  if(cardData.offer.features) {
+    cardFeatures.append(getElement(cardData.offer.features, createListItem));
+  }
   cardElement.querySelector('.popup__avatar').src = cardData.author.avatar;
 
   return cardElement;

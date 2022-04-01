@@ -1,8 +1,7 @@
-import { createOffers } from './create-offers.js';
 import { renderCard } from './generate-offers.js';
-import { switchToReady } from './form.js';
+import { switchToReady, switchToUnready } from './form.js';
+import { getData } from './api.js';
 
-const data = createOffers();
 const address = document.querySelector('#address');
 const startingCoordinates = {
   lat: '35.68950',
@@ -10,7 +9,7 @@ const startingCoordinates = {
 };
 
 const setCoordinatesValue = ({lat, lng}) => `${lat}, ${lng}`;
-const startingValue = () => {
+const getStartingValue = () => {
   address.value = setCoordinatesValue(startingCoordinates);
 };
 
@@ -35,37 +34,35 @@ const mainPinMarker = L.marker(
 );
 
 const markersGroup = L.layerGroup();
+const map = L.map('map-canvas');
 
-const createMarker = (point) => {
-  const marker = L.marker(
-    point.location,
-    {
-      icon,
-    },
-  );
+const createMarker = (points) => {
+  points.forEach((point) => {
+    const marker = L.marker(
+      point.location,
+      {
+        icon,
+      },
+    );
 
-  marker
-    .addTo(markersGroup)
-    .bindPopup(renderCard(point));
+    marker
+      .addTo(markersGroup)
+      .bindPopup(renderCard(point));
+  });
 };
 
-data.forEach((point) => {
-  createMarker(point);
-});
-
 const getMap = () => {
-  const map = L.map('map-canvas')
+  switchToUnready();
+  map.on('load', () => {
+    getStartingValue();
+  })
     .setView(startingCoordinates, 10);
-
   L.tileLayer(
     'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
     {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     },
   ).addTo(map);
-
-  startingValue();
-  switchToReady();
 
   mainPinMarker.on('move', (evt) => {
     const coordinates = evt.target.getLatLng();
@@ -76,7 +73,14 @@ const getMap = () => {
   });
 
   mainPinMarker.addTo(map);
+  getData(createMarker);
   markersGroup.addTo(map);
+  switchToReady();
 };
 
-export {getMap};
+const setDefaultMap = () => {
+  mainPinMarker.setLatLng(startingCoordinates);
+  map.closePopup();
+};
+
+export {getMap, getStartingValue, setDefaultMap};
