@@ -1,5 +1,5 @@
 import { renderCard } from './generate-offers.js';
-import { switchToReady } from './form.js';
+import { switchToReady, switchToUnready } from './form.js';
 import { getData } from './api.js';
 
 const address = document.querySelector('#address');
@@ -34,6 +34,7 @@ const mainPinMarker = L.marker(
 );
 
 const markersGroup = L.layerGroup();
+const map = L.map('map-canvas');
 
 const createMarker = (points) => {
   points.forEach((point) => {
@@ -50,16 +51,12 @@ const createMarker = (points) => {
   });
 };
 
-getData(createMarker);
-
 const getMap = () => {
-  const map = L.map('map-canvas')
-    .on('load', () => {
-      switchToReady();
-      getStartingValue();
-    })
+  switchToUnready();
+  map.on('load', () => {
+    getStartingValue();
+  })
     .setView(startingCoordinates, 10);
-
   L.tileLayer(
     'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
     {
@@ -76,11 +73,14 @@ const getMap = () => {
   });
 
   mainPinMarker.addTo(map);
+  getData(createMarker);
   markersGroup.addTo(map);
+  switchToReady();
 };
 
 const setDefaultMap = () => {
   mainPinMarker.setLatLng(startingCoordinates);
+  map.closePopup();
 };
 
 export {getMap, getStartingValue, setDefaultMap};

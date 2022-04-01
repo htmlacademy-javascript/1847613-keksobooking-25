@@ -1,10 +1,12 @@
 import { showAlert } from './util.js';
 
-const ServerGetAddress = 'https://25.javascript.pages.academy/keksobooking/data';
-const ServerSendAddress = 'https://25.javascript.pages.academy/keksobooking';
+const ServerAddress = {
+  GET: 'https://25.javascript.pages.academy/keksobooking/data',
+  POST: 'https://25.javascript.pages.academy/keksobooking'
+};
 
 const getData = (onSuccess) => {
-  fetch(ServerGetAddress)
+  fetch(ServerAddress.GET)
     .then((response) => {
       if (response.ok) {
         return response;
@@ -19,7 +21,7 @@ const getData = (onSuccess) => {
 };
 
 const sendData = (onSuccess, onFail, body) => {
-  fetch(ServerSendAddress,
+  fetch(ServerAddress.POST,
     {
       method: 'POST',
       body,

@@ -69,10 +69,6 @@ type.addEventListener('change', (evt) => {
   });
 });
 
-price.addEventListener('input', (evt) => {
-  price.value = evt.target.value;
-});
-
 const validatePrice = () => parseInt(price.value, 10) >= parseInt(price.min, 10)
   && parseInt(price.value, 10) >= 0
   && parseInt(price.value, 10) <= 100000;
@@ -126,21 +122,22 @@ const validateForm = (onSuccess) => {
   form.addEventListener('submit', (evt) => {
     evt.preventDefault();
     const isValid = pristine.validate();
-    if (isValid) {
-      blockSubmitButton();
-      sendData(
-        () => {
-          onSuccess();
-          unblockSubmitButton();
-        },
-        () => {
-          showErrorMessage();
-          unblockSubmitButton();
-        },
-        new FormData(evt.target)
-      );
-      resetForm();
+    if (!isValid) {
+      return;
     }
+    blockSubmitButton();
+    sendData(
+      () => {
+        onSuccess();
+        unblockSubmitButton();
+        resetForm();
+      },
+      () => {
+        showErrorMessage();
+        unblockSubmitButton();
+      },
+      new FormData(evt.target)
+    );
   });
 };
 
