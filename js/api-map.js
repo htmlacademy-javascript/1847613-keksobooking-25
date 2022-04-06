@@ -1,12 +1,14 @@
 import { renderCard } from './generate-offers.js';
 import { switchToReady, switchToUnready } from './form.js';
 import { getData } from './api.js';
+import { filtered } from './filters.js';
+import { debounce } from './util.js';
+import { startingCoordinates, DEBOUNCE_TIME } from './data.js';
 
+const formFilter = document.querySelector('.map__filters');
 const address = document.querySelector('#address');
-const startingCoordinates = {
-  lat: '35.68950',
-  lng: '139.69171',
-};
+
+const savedPoints = [];
 
 const setCoordinatesValue = ({lat, lng}) => `${lat}, ${lng}`;
 const getStartingValue = () => {
@@ -37,7 +39,9 @@ const markersGroup = L.layerGroup();
 const map = L.map('map-canvas');
 
 const createMarker = (points) => {
-  points.forEach((point) => {
+  map.closePopup();
+  markersGroup.clearLayers();
+  filtered(points).forEach((point) => {
     const marker = L.marker(
       point.location,
       {
@@ -54,6 +58,10 @@ const createMarker = (points) => {
 const getMap = () => {
   switchToUnready();
   map.on('load', () => {
+    getData((points) => {
+      createMarker(points);
+      savedPoints.push(...points);
+    });
     getStartingValue();
   })
     .setView(startingCoordinates, 10);
@@ -73,7 +81,6 @@ const getMap = () => {
   });
 
   mainPinMarker.addTo(map);
-  getData(createMarker);
   markersGroup.addTo(map);
   switchToReady();
 };
@@ -82,5 +89,7 @@ const setDefaultMap = () => {
   mainPinMarker.setLatLng(startingCoordinates);
   map.closePopup();
 };
+
+formFilter.addEventListener('change', debounce(() => createMarker(savedPoints), DEBOUNCE_TIME));
 
 export {getMap, getStartingValue, setDefaultMap};

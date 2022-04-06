@@ -93,5 +93,15 @@ const showAlert = (message) => {
   }, 5000);
 };
 
+const debounce = (callback, timeoutDelay = 500) => {
+  let timeoutId;
+
+  return (...rest) => {
+    clearTimeout(timeoutId);
+
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+};
+
 export {getRandomNumber, getRandomFloatNumber, getRandomArrayElement,
-  randomAvatar, getRandomArray, createImage, createListItem, getElement, showAlert};
+  randomAvatar, getRandomArray, createImage, createListItem, getElement, showAlert, debounce};
