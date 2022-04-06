@@ -20,5 +20,18 @@ const PRICE_OF_TYPES = {
   'palace': 10000,
 };
 
+const PriceValues = {
+  AVERAGE_START: 10000,
+  AVERAGE_FINAL: 50000,
+};
+const FILTERED_POINTS_LENGTH = 10;
+
+const startingCoordinates = {
+  lat: '35.68950',
+  lng: '139.69171',
+};
+const DEBOUNCE_TIME = 500;
+
 export {CHECKIN_TIMES, CHECKOUT_TIMES, PHOTOS, TYPES, FEATURES, TITLES,
-  DESCRIPTIONS, typesOfInhabitation, PRICE_OF_TYPES};
+  DESCRIPTIONS, typesOfInhabitation, PRICE_OF_TYPES,
+  PriceValues, FILTERED_POINTS_LENGTH, startingCoordinates, DEBOUNCE_TIME};

@@ -14,9 +14,7 @@ const getData = (onSuccess) => {
       throw new Error(showAlert('Ошибка сервера'));
     })
     .then((response) => response.json())
-    .then((offers) => {
-      onSuccess(offers);
-    })
+    .then((offers) => onSuccess(offers))
     .catch(() => showAlert('Ошибка сервера'));
 };
 

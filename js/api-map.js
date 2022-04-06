@@ -3,13 +3,10 @@ import { switchToReady, switchToUnready } from './form.js';
 import { getData } from './api.js';
 import { filtered } from './filters.js';
 import { debounce } from './util.js';
+import { startingCoordinates, DEBOUNCE_TIME } from './data.js';
 
 const formFilter = document.querySelector('.map__filters');
 const address = document.querySelector('#address');
-const startingCoordinates = {
-  lat: '35.68950',
-  lng: '139.69171',
-};
 
 const savedPoints = [];
 
@@ -93,9 +90,6 @@ const setDefaultMap = () => {
   map.closePopup();
 };
 
-formFilter.addEventListener('change', () => {
-  const withDebounce = debounce(() => createMarker(savedPoints), 500);
-  withDebounce();
-});
+formFilter.addEventListener('change', debounce(() => createMarker(savedPoints), DEBOUNCE_TIME));
 
 export {getMap, getStartingValue, setDefaultMap};
