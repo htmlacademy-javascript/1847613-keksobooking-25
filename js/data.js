@@ -1,10 +1,3 @@
-const CHECKIN_TIMES = ['12:00', '13:00', '14:00'];
-const CHECKOUT_TIMES = ['12:00', '13:00', '14:00'];
-const PHOTOS = ['https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg', 'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg', 'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'];
-const TYPES = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
-const FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
-const TITLES = ['Title 1','Title 2', 'Title 3', 'Title 4', 'Title 5', 'Title 6', 'Title 7', 'Title 8'];
-const DESCRIPTIONS = ['Descr 1','Descr 2', 'Descr 3', 'Descr 4', 'Descr 5'];
 const typesOfInhabitation = {
   'flat': 'Квартира',
   'bungalow': 'Бунгало',
@@ -12,7 +5,8 @@ const typesOfInhabitation = {
   'palace': 'Дворец',
   'hotel': 'Отель'
 };
-const PRICE_OF_TYPES = {
+
+const priceOfTypes = {
   'bungalow': 0,
   'flat': 1000,
   'hotel': 3000,
@@ -24,14 +18,20 @@ const PriceValues = {
   AVERAGE_START: 10000,
   AVERAGE_FINAL: 50000,
 };
-const FILTERED_POINTS_LENGTH = 10;
 
 const startingCoordinates = {
   lat: '35.68950',
   lng: '139.69171',
 };
-const DEBOUNCE_TIME = 500;
 
-export {CHECKIN_TIMES, CHECKOUT_TIMES, PHOTOS, TYPES, FEATURES, TITLES,
-  DESCRIPTIONS, typesOfInhabitation, PRICE_OF_TYPES,
-  PriceValues, FILTERED_POINTS_LENGTH, startingCoordinates, DEBOUNCE_TIME};
+const ServerAddress = {
+  GET: 'https://25.javascript.pages.academy/keksobooking/data',
+  POST: 'https://25.javascript.pages.academy/keksobooking'
+};
+
+const FILTERED_POINTS_LENGTH = 10;
+const DEBOUNCE_TIME = 500;
+const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+
+export {typesOfInhabitation, priceOfTypes, PriceValues, FILTERED_POINTS_LENGTH,
+  startingCoordinates, ServerAddress, DEBOUNCE_TIME, FILE_TYPES};

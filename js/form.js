@@ -1,7 +1,8 @@
-import { PRICE_OF_TYPES } from './data.js';
+import { priceOfTypes } from './data.js';
 import { sendData } from './api.js';
 import { getStartingValue, setDefaultMap } from './api-map.js';
 import { showErrorMessage } from './user-messages.js';
+import { FILE_TYPES } from './data.js';
 
 const form = document.querySelector('.ad-form');
 const fieldSet = form.querySelectorAll('.ad-form__element');
@@ -20,13 +21,17 @@ const pristine = new Pristine(form, {
 }, false);
 const roomsField = form.querySelector('#room_number');
 const guestsField = form.querySelector('#capacity');
-// Время заезда и выезда
 const addFormElementTime = document.querySelector('.ad-form__element--time');
 const timeIn = document.querySelector('#timein');
 const timeOut = document.querySelector('#timeout');
 const type = document.querySelector('#type');
 const price = document.querySelector('#price');
 const sliderElement = document.querySelector('.ad-form__slider');
+const avatarChooser = document.querySelector('.ad-form__field input[type=file]');
+const previewAvatar = document.querySelector('.ad-form-header__preview img');
+const photoChooser = document.querySelector('.ad-form__upload input[type=file]');
+const previewPhoto = document.querySelector('.ad-form__photo');
+
 addFormElementTime.addEventListener('change', (evt) => {
   timeOut.value = evt.target.value;
   timeIn.value = evt.target.value;
@@ -54,9 +59,8 @@ const getSlider = () => {
   });
 };
 
-// Изменение цены в зависимости от типа жилья
 type.addEventListener('change', (evt) => {
-  const priceMin = PRICE_OF_TYPES[evt.target.value];
+  const priceMin = priceOfTypes[evt.target.value];
   price.setAttribute('min', priceMin);
   price.setAttribute('placeholder', priceMin);
   price.setAttribute('value', price.value);
@@ -100,6 +104,8 @@ const resetForm = () => {
   mapFilter.reset();
   getStartingValue();
   setDefaultMap();
+  previewPhoto.innerHTML = '';
+  previewAvatar.src = 'img/muffin-grey.svg';
 
   sliderElement.noUiSlider.updateOptions({
     range: {
@@ -116,6 +122,37 @@ const blockSubmitButton = () => {
 
 const unblockSubmitButton = () => {
   buttonSubmit.disabled = false;
+};
+
+const preShowPhoto = () => {
+  avatarChooser.addEventListener('change', () => {
+    const file = avatarChooser.files[0];
+    const fileName = file.name.toLowerCase();
+
+    const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
+
+    if (matches) {
+      previewAvatar.src = URL.createObjectURL(file);
+    }
+  });
+
+  photoChooser.addEventListener('change', () => {
+    const photos = Array.from(photoChooser.files);
+    photos.forEach((file) => {
+      const fileName = file.name.toLowerCase();
+
+      const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
+
+      if (matches) {
+        previewPhoto.style.display = 'flex';
+        const photo = document.createElement('img');
+        photo.style.height = '70px';
+        photo.style.width = '70px';
+        previewPhoto.append(photo);
+        photo.src = URL.createObjectURL(file);
+      }
+    });
+  });
 };
 
 const validateForm = (onSuccess) => {
@@ -159,6 +196,7 @@ const switchToReady = () => {
   fieldSet.forEach((elem) => {
     elem.removeAttribute('disabled', 'disabled');
   });
+  preShowPhoto();
   mapFilter.classList.remove('map__filters--disabled');
   filters.forEach((elem) => {
     elem.removeAttribute('disabled', 'disabled');
