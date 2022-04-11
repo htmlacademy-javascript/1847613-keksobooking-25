@@ -2,7 +2,7 @@ import { renderCard } from './generate-offers.js';
 import { switchToReady, switchToUnready } from './form.js';
 import { getData } from './api.js';
 import { filtered } from './filters.js';
-import { debounce } from './util.js';
+import { setDebounce } from './util.js';
 import { startingCoordinates, DEBOUNCE_TIME } from './data.js';
 
 const formFilter = document.querySelector('.map__filters');
@@ -63,6 +63,7 @@ const getMap = () => {
       savedPoints.push(...points);
     });
     getStartingValue();
+    switchToReady();
   })
     .setView(startingCoordinates, 10);
   L.tileLayer(
@@ -82,14 +83,14 @@ const getMap = () => {
 
   mainPinMarker.addTo(map);
   markersGroup.addTo(map);
-  switchToReady();
 };
 
 const setDefaultMap = () => {
   mainPinMarker.setLatLng(startingCoordinates);
   map.closePopup();
+  map.setView(startingCoordinates, 10);
 };
 
-formFilter.addEventListener('change', debounce(() => createMarker(savedPoints), DEBOUNCE_TIME));
+formFilter.addEventListener('change', setDebounce(() => createMarker(savedPoints), DEBOUNCE_TIME));
 
 export {getMap, getStartingValue, setDefaultMap};

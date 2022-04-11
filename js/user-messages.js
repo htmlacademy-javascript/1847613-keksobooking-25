@@ -2,14 +2,14 @@ const body = document.querySelector('body');
 let messageTemplate;
 let messageElement;
 
-const deleteMessage = () => {
+const onDeleteMessage = () => {
   messageElement.remove();
 };
 
-const pressEscKeydown = (evt) => {
+const onPressEscKeydown = (evt) => {
   if (evt.code === 'Escape') {
-    deleteMessage();
-    body.removeEventListener('keydown', pressEscKeydown);
+    onDeleteMessage();
+    body.removeEventListener('keydown', onPressEscKeydown);
   }
 };
 
@@ -18,8 +18,8 @@ const showSuccessMessage = () => {
   messageElement = messageTemplate.cloneNode(true);
 
   body.append(messageElement);
-  body.addEventListener('click', deleteMessage, {once: true});
-  body.addEventListener('keydown', pressEscKeydown);
+  body.addEventListener('click', onDeleteMessage, {once: true});
+  body.addEventListener('keydown', onPressEscKeydown);
 };
 
 const showErrorMessage = () => {
@@ -28,9 +28,9 @@ const showErrorMessage = () => {
   messageElement = messageTemplate.cloneNode(true);
 
   body.append(messageElement);
-  body.addEventListener('click', deleteMessage, {once: true});
-  body.addEventListener('keydown', pressEscKeydown);
-  errorButton.addEventListener('click', deleteMessage, {once: true});
+  body.addEventListener('click', onDeleteMessage, {once: true});
+  body.addEventListener('keydown', onPressEscKeydown);
+  errorButton.addEventListener('click', onDeleteMessage, {once: true});
 };
 
 export {showSuccessMessage, showErrorMessage};
