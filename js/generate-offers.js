@@ -20,8 +20,11 @@ const renderCard = (cardData) => {
   if (cardData.offer.photos) {
     cardPhotos.append(getElement(cardData.offer.photos, createImage));
   }
+
   if(cardData.offer.features) {
     cardFeatures.append(getElement(cardData.offer.features, createListItem));
+  } else {
+    cardFeatures.classList.add('hidden');
   }
   cardElement.querySelector('.popup__avatar').src = cardData.author.avatar;
 

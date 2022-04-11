@@ -47,7 +47,7 @@ const showAlert = (message) => {
   }, 5000);
 };
 
-const debounce = (callback, timeoutDelay = 500) => {
+const setDebounce = (callback, timeoutDelay = 500) => {
   let timeoutId;
 
   return (...rest) => {
@@ -57,4 +57,4 @@ const debounce = (callback, timeoutDelay = 500) => {
   };
 };
 
-export {createImage, createListItem, getElement, showAlert, debounce};
+export {createImage, createListItem, getElement, showAlert, setDebounce};

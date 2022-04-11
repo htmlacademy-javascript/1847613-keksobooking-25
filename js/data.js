@@ -1,3 +1,7 @@
+const FILTERED_POINTS_LENGTH = 10;
+const DEBOUNCE_TIME = 500;
+const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+
 const typesOfInhabitation = {
   'flat': 'Квартира',
   'bungalow': 'Бунгало',
@@ -28,10 +32,6 @@ const ServerAddress = {
   GET: 'https://25.javascript.pages.academy/keksobooking/data',
   POST: 'https://25.javascript.pages.academy/keksobooking'
 };
-
-const FILTERED_POINTS_LENGTH = 10;
-const DEBOUNCE_TIME = 500;
-const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 
 export {typesOfInhabitation, priceOfTypes, PriceValues, FILTERED_POINTS_LENGTH,
   startingCoordinates, ServerAddress, DEBOUNCE_TIME, FILE_TYPES};

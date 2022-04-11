@@ -73,13 +73,12 @@ type.addEventListener('change', (evt) => {
   });
 });
 
-const validatePrice = () => parseInt(price.value, 10) >= parseInt(price.min, 10)
-  && parseInt(price.value, 10) >= 0
-  && parseInt(price.value, 10) <= 100000;
+const validatePrice = () => Number(price.value) >= 0
+  && Number(price.value) <= 100000;
 
 const validateCapacity = () => guestsField.value <= roomsField.value
-  && parseInt(roomsField.value, 10) !== 100
-  && parseInt(guestsField.value, 10)  !== 0;
+  && Number(roomsField.value) !== 100
+  && Number(guestsField.value)  !== 0;
 
 pristine.addValidator(
   roomsField,
@@ -101,6 +100,7 @@ pristine.addValidator(
 
 const resetForm = () => {
   form.reset();
+  pristine.reset();
   mapFilter.reset();
   getStartingValue();
   setDefaultMap();
@@ -124,7 +124,7 @@ const unblockSubmitButton = () => {
   buttonSubmit.disabled = false;
 };
 
-const preShowPhoto = () => {
+const showPhoto = () => {
   avatarChooser.addEventListener('change', () => {
     const file = avatarChooser.files[0];
     const fileName = file.name.toLowerCase();
@@ -196,7 +196,7 @@ const switchToReady = () => {
   fieldSet.forEach((elem) => {
     elem.removeAttribute('disabled', 'disabled');
   });
-  preShowPhoto();
+  showPhoto();
   mapFilter.classList.remove('map__filters--disabled');
   filters.forEach((elem) => {
     elem.removeAttribute('disabled', 'disabled');
