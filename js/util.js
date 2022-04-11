@@ -1,3 +1,5 @@
+import { DELAY_TIME } from './data.js';
+
 const createListItem = (featureName) => {
   const listElement = document.createElement('li');
 
@@ -28,11 +30,11 @@ const getElement = (arr, func) => {
 
 const showAlert = (message) => {
   const container = document.createElement('div');
-  container.style.zIndex = 100;
+  container.style.zIndex = '100';
   container.style.position = 'absolute';
-  container.style.left = 0;
-  container.style.top = 0;
-  container.style.right = 0;
+  container.style.left = '0';
+  container.style.top = '0';
+  container.style.right = '0';
   container.style.padding = '10px 5px';
   container.style.fontSize = '30px';
   container.style.textAlign = 'center';
@@ -44,10 +46,10 @@ const showAlert = (message) => {
 
   setTimeout(() => {
     container.remove();
-  }, 5000);
+  }, DELAY_TIME);
 };
 
-const setDebounce = (callback, timeoutDelay = 500) => {
+const setDebounce = (callback, timeoutDelay) => {
   let timeoutId;
 
   return (...rest) => {

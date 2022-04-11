@@ -1,5 +1,6 @@
 const FILTERED_POINTS_LENGTH = 10;
 const DEBOUNCE_TIME = 500;
+const DELAY_TIME = 5000;
 const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 
 const typesOfInhabitation = {
@@ -34,4 +35,4 @@ const ServerAddress = {
 };
 
 export {typesOfInhabitation, priceOfTypes, PriceValues, FILTERED_POINTS_LENGTH,
-  startingCoordinates, ServerAddress, DEBOUNCE_TIME, FILE_TYPES};
+  startingCoordinates, ServerAddress, DEBOUNCE_TIME, FILE_TYPES, DELAY_TIME};
